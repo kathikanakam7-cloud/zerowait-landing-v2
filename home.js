@@ -1,88 +1,71 @@
-// =========================
-// ZeroWait Home Page
-// =========================
+(function () {
+  const storageKeys = [
+    ['totalOrders', '18'],
+    ['rewardPoints', '350'],
+    ['walletBalance', '1250'],
+    ['moneySaved', '2400'],
+    ['tableBookings', '12'],
+    ['rideTrips', '8']
+  ];
 
-// Welcome User
+  function setDemoValues() {
+    storageKeys.forEach(([key, value]) => {
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, value);
+      }
+    });
+  }
 
-const userName =
-    localStorage.getItem("name") || "Guest";
+  function initWelcomeMessage() {
+    const welcomeHome = document.getElementById('welcomeHome');
+    if (!welcomeHome) return;
 
-const welcomeHome =
-    document.getElementById("welcomeHome");
+    const userName = localStorage.getItem('name') || 'Guest';
+    welcomeHome.textContent = `👋 Welcome Back, ${userName}`;
+  }
 
-if(welcomeHome){
-    welcomeHome.innerHTML =
-        `👋 Welcome Back, ${userName}`;
-}
+  function placeOrder() {
+    const totalOrders = (parseInt(localStorage.getItem('totalOrders'), 10) || 0) + 1;
+    const rewardPoints = (parseInt(localStorage.getItem('rewardPoints'), 10) || 0) + 20;
+    const walletBalance = (parseInt(localStorage.getItem('walletBalance'), 10) || 0) + 50;
+    const moneySaved = (parseInt(localStorage.getItem('moneySaved'), 10) || 0) + 100;
 
-// Demo Data
+    localStorage.setItem('totalOrders', String(totalOrders));
+    localStorage.setItem('rewardPoints', String(rewardPoints));
+    localStorage.setItem('walletBalance', String(walletBalance));
+    localStorage.setItem('moneySaved', String(moneySaved));
 
-if(!localStorage.getItem("totalOrders")){
-    localStorage.setItem("totalOrders","18");
-}
+    window.alert('✅ Order Placed Successfully!\n\n+1 Order\n+20 Reward Points\n+₹50 Wallet Cashback');
+  }
 
-if(!localStorage.getItem("rewardPoints")){
-    localStorage.setItem("rewardPoints","350");
-}
+  function enhanceLandingPage() {
+    document.querySelectorAll('button:not([type])').forEach((button) => {
+      button.setAttribute('type', 'button');
+    });
 
-if(!localStorage.getItem("walletBalance")){
-    localStorage.setItem("walletBalance","1250");
-}
+    document.querySelectorAll('img').forEach((img) => {
+      if (!img.hasAttribute('loading')) {
+        img.setAttribute('loading', 'lazy');
+      }
+      if (!img.hasAttribute('decoding')) {
+        img.setAttribute('decoding', 'async');
+      }
+    });
 
-if(!localStorage.getItem("moneySaved")){
-    localStorage.setItem("moneySaved","2400");
-}
+    const heroImage = document.querySelector('.hero img');
+    if (heroImage) {
+      heroImage.removeAttribute('loading');
+    }
 
-if(!localStorage.getItem("tableBookings")){
-    localStorage.setItem("tableBookings","12");
-}
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('reduced-motion');
+    }
+  }
 
-if(!localStorage.getItem("rideTrips")){
-    localStorage.setItem("rideTrips","8");
-}
+  initWelcomeMessage();
+  setDemoValues();
+  enhanceLandingPage();
 
-// Order Function
-
-function placeOrder(){
-
-    let totalOrders =
-        parseInt(localStorage.getItem("totalOrders")) || 0;
-
-    let rewardPoints =
-        parseInt(localStorage.getItem("rewardPoints")) || 0;
-
-    let walletBalance =
-        parseInt(localStorage.getItem("walletBalance")) || 0;
-
-    let moneySaved =
-        parseInt(localStorage.getItem("moneySaved")) || 0;
-
-    totalOrders += 1;
-    rewardPoints += 20;
-    walletBalance += 50;
-    moneySaved += 100;
-
-    localStorage.setItem(
-        "totalOrders",
-        totalOrders
-    );
-
-    localStorage.setItem(
-        "rewardPoints",
-        rewardPoints
-    );
-
-    localStorage.setItem(
-        "walletBalance",
-        walletBalance
-    );
-
-    localStorage.setItem(
-        "moneySaved",
-        moneySaved
-    );
-
-    alert(
-        "✅ Order Placed Successfully!\n\n+1 Order\n+20 Reward Points\n+₹50 Wallet Cashback"
-    );
-}
+  window.placeOrder = placeOrder;
+  document.addEventListener('DOMContentLoaded', enhanceLandingPage);
+})();

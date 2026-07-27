@@ -1,202 +1,145 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+:root {
+  --teal: #009e99;
+  --teal-dark: #007a76;
+  --teal-light: #e0f5f4;
+  --orange: #ff7043;
+  --dark: #111827;
+  --muted: #6b7280;
+  --surface: #ffffff;
+  --border: #e5e7eb;
 }
 
-body{
-    background:#f8fafc;
-    color:#1f2937;
-    padding-bottom:90px;
+* {
+  box-sizing: border-box;
 }
 
-/* HERO */
-
-.hero{
-    background:linear-gradient(135deg,#009e99,#18d4cf);
-    color:white;
-    padding:70px 8%;
-    border-radius:0 0 35px 35px;
-    position:relative;
-    overflow:hidden;
+html {
+  scroll-behavior: smooth;
 }
 
-.hero::before{
-    content:"";
-    position:absolute;
-    width:450px;
-    height:450px;
-    border-radius:50%;
-    background:rgba(255,255,255,.08);
-    top:-180px;
-    right:-180px;
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #f8fafc;
+  color: var(--dark);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.hero-content{
-    position:relative;
-    z-index:2;
+img {
+  display: block;
+  max-width: 100%;
 }
 
-.hero h1{
-    font-size:42px;
-    font-weight:800;
-    margin-bottom:10px;
+a {
+  color: inherit;
 }
 
-.hero p{
-    font-size:18px;
-    opacity:.9;
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
-/* SEARCH */
-
-.search-box{
-    margin-top:25px;
+::selection {
+  background: rgba(0, 158, 153, 0.2);
+  color: var(--dark);
 }
 
-.search-box input{
-    width:100%;
-    max-width:550px;
-    padding:18px 22px;
-    border:none;
-    border-radius:16px;
-    font-size:16px;
-    outline:none;
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: var(--dark);
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
 }
 
-/* MAIN */
-
-.container{
-    width:90%;
-    max-width:1400px;
-    margin:auto;
-    padding:40px 0;
+.skip-link:focus {
+  left: 1rem;
 }
 
-.section-title{
-    font-size:28px;
-    font-weight:700;
-    margin:35px 0 20px;
+:focus-visible {
+  outline: 3px solid rgba(0, 158, 153, 0.35);
+  outline-offset: 3px;
 }
 
-/* CATEGORY */
-
-.categories{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-    gap:18px;
+.nav,
+.hero,
+.section,
+.footer {
+  will-change: transform;
 }
 
-.category-card{
-    background:white;
-    padding:22px;
-    border-radius:18px;
-    text-align:center;
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 8px 25px rgba(0,0,0,.06);
-    transition:.3s;
+.btn-solid,
+.btn-outline,
+.teal-btn,
+.plan-btn,
+.cform-submit-new,
+.learn-more-btn,
+.float-cta,
+.filter-btn,
+.app-badge,
+.dl-btn {
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
 }
 
-.category-card:hover{
-    transform:translateY(-5px);
+.btn-solid:hover,
+.btn-outline:hover,
+.teal-btn:hover,
+.plan-btn:hover,
+.cform-submit-new:hover,
+.learn-more-btn:hover,
+.float-cta:hover,
+.filter-btn:hover,
+.app-badge:hover,
+.dl-btn:hover {
+  transform: translateY(-2px);
 }
 
-/* RESTAURANTS */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.restaurant-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:25px;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.restaurant-card{
-    background:white;
-    border-radius:22px;
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    transition:.3s;
+@media (max-width: 900px) {
+  body {
+    padding-bottom: 1.5rem;
+  }
 }
 
-.restaurant-card:hover{
-    transform:translateY(-8px);
+@media (max-width: 640px) {
+  .float-cta {
+    right: 1rem;
+    left: 1rem;
+    justify-content: center;
+  }
+}
+/* ===== Hero "Learn How It Works" Button ===== */
+.hero-btns .btn-outline {
+    background: rgba(255,255,255,0.10);
+    color: #ffffff;
+    border: 2px solid rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
-.restaurant-card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-}
-
-.restaurant-card h3{
-    padding:18px 18px 8px;
-    font-size:20px;
-}
-
-.restaurant-card p{
-    padding:0 18px 15px;
-    color:#6b7280;
-}
-
-.restaurant-card button{
-    margin:0 18px 18px;
-    background:#009e99;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:12px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.restaurant-card button:hover{
-    background:#008781;
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:white;
-    display:flex;
-    justify-content:center;
-    gap:60px;
-    padding:18px;
-    box-shadow:0 -5px 20px rgba(0,0,0,.08);
-}
-
-.bottom-nav a{
-    text-decoration:none;
-    color:#009e99;
-    font-size:16px;
-    font-weight:700;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-    .hero{
-        padding:45px 20px;
-    }
-
-    .hero h1{
-        font-size:30px;
-    }
-
-    .section-title{
-        font-size:24px;
-    }
-
-    .bottom-nav{
-        gap:30px;
-    }
-
+.hero-btns .btn-outline:hover {
+    background: #ffffff;
+    color: var(--teal);
+    border-color: #ffffff;
 }
