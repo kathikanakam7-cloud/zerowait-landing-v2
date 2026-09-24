@@ -4,7 +4,7 @@
   "description": "OTP send/verify backend for ZeroWait, using Twilio Verify",
   "main": "server.js",
   "scripts": {
-    "start": "node dileep/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

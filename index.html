@@ -416,7 +416,7 @@ section[id]{scroll-margin-top:92px;}
 .btn-outline,.btn-solid{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease,border-color .2s ease;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:10px 22px;border-radius:10px;cursor:pointer;letter-spacing:-.1px;}
 .btn-outline{background:transparent;color:var(--dark);border:1.5px solid var(--border);}
 .btn-solid{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-dark) 100%);color:#fff;border:1.5px solid transparent;box-shadow:0 4px 14px rgba(0,158,153,.25);}
-..btn-solid:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,158,153,.32);}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,158,153,.32);}
 .btn-outline:hover{transform:translateY(-2px);border-color:var(--teal);color:var(--teal);box-shadow:0 8px 20px rgba(17,24,39,.08);}
 .hero-visual-card::before{content:"";position:absolute;inset:-8px;border-radius:30px;border:1px solid rgba(255,255,255,.18);pointer-events:none;animation:pulseBorder 3.6s ease-in-out infinite;}
 @keyframes pulseBorder{0%,100%{opacity:.55;transform:scale(.99);}50%{opacity:1;transform:scale(1.01);}}
@@ -1495,7 +1495,7 @@ img,
 <div class="hero-actions">
 <div class="hero-btns">
 <button class="btn-solid btn-cta" onclick="goToAccount()">Launch Web App</button>
-<button class="btn-outline" onclick="showToast('Learn how it works coming soon!')">Learn How It Works</button>
+<button class="btn-outline" onclick="navTo('how')">Learn How It Works</button>
 </div>
 <div class="hero-highlights">
 <span>✓ Real-Time Arrival Sync</span>
