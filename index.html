@@ -1943,7 +1943,7 @@ main#main-content,
 </div>
 </section>
 <!-- ════ PARTNER ════ -->
-<section class="section section-alt" id="pricing">
+<section class="section section-alt" id="partner">
 <div class="centered reveal">
 <div class="pricing-mode-switch" aria-label="Choose customer or restaurant view">
 <button class="mode-btn active" type="button" data-mode="diners" aria-pressed="true">For Diners</button>
@@ -2268,7 +2268,7 @@ function setAudience(audience){
   });
 
   if (isRestaurants) {
-    const partnerSection = document.getElementById('partner');
+    const partnerSection = document.getElementById('partner') || document.getElementById('pricing');
     if (partnerSection) partnerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
@@ -2306,6 +2306,10 @@ function setPartnerView(mode){
 function navTo(id){
   if (id === 'partner') {
     setAudience('restaurants');
+    const partnerSection = document.getElementById('partner') || document.getElementById('pricing');
+    if (partnerSection) {
+      partnerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
     return;
   }
   const el=document.getElementById(id);

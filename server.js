@@ -50,7 +50,7 @@ app.use(express.static(__dirname));
 
 // Home route
 app.get("/", (req, res) => {
-  res.send("✅ ZeroWait Backend is Running Successfully!");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 console.log("Serving files from:", __dirname);
@@ -318,26 +318,27 @@ app.post('/api/auth/google', async (req, res) => {
 
 app.get('/api/restaurants', async (req, res) => {
     try {
+        if (!dbReady) {
+            return res.json(getFallbackRestaurants());
+        }
+
         const result = await queryDb(
             'SELECT * FROM restaurants ORDER BY rating DESC'
         );
 
         const restaurants = await Promise.all(
-    result.rows.map(async (restaurant) => ({
-        ...restaurant,
-        menu: await getMenuFromDB(restaurant.id)
-    }))
-);
+            result.rows.map(async (restaurant) => ({
+                ...restaurant,
+                menu: await getMenuFromDB(restaurant.id)
+            }))
+        );
 
         res.json(restaurants);
 
     } catch (err) {
         console.error(err);
 
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch restaurants'
-        });
+        return res.json(getFallbackRestaurants());
     }
 });
 
@@ -400,13 +401,15 @@ const {
     customer_name,
     order_type,
     table_number,
-    items
-} = req.body;
+    items = []
+} = req.body || {};
 
-const calculatedAmount = items.reduce(
-    (sum, item) => sum + (item.price * item.quantity),
+const safeItems = Array.isArray(items) ? items : [];
+const calculatedAmount = safeItems.reduce(
+    (sum, item) => sum + (Number(item.price || 0) * Number(item.quantity || 0)),
     0
 );
+
 try {
 
     if (!dbReady) {
@@ -414,11 +417,11 @@ try {
             id: Date.now(),
             user_id,
             restaurant_id,
-            amount,
+            amount: calculatedAmount,
             customer_name,
             order_type,
             table_number,
-            items,
+            items: safeItems,
             status: 'Pending',
             created_at: new Date().toISOString()
         };
