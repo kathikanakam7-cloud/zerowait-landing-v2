@@ -2432,10 +2432,10 @@ function showToast(msg){
 //   4xx:   { "success": false, "message": "Incorrect or expired OTP" }
 //   → server calls Twilio Verify: verify.services(SERVICE_SID).verificationChecks.create({ to: phone, code })
 //
-// Change API_BASE below to wherever your backend is hosted.
-// ══════════════════════════════════════════════════════════════
-// Change API_BASE below to wherever your backend is hosted.
-const API_BASE = window.location.origin;
+// Use the local Express API during development and the Render API in production.
+const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  ? window.location.origin
+  : 'https://zerowait-2.onrender.com';
 
 // ── FORM HANDLERS ──
 function handleContact(){
