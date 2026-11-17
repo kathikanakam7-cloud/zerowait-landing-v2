@@ -3,3 +3,4 @@ node_modules/
 dileep/.env
 .env
 .env.*
+!.env.example

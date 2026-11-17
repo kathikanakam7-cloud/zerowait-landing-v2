@@ -80,6 +80,7 @@ section[id]{scroll-margin-top:92px;}
 .mobile-nav-toggle{display:none;flex-direction:column;justify-content:center;gap:4px;width:42px;height:42px;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;}
 .mobile-nav-toggle span{display:block;height:2px;width:20px;background:var(--dark);margin:0 auto;border-radius:999px;}
 .mobile-nav-panel{display:none;flex-direction:column;gap:10px;padding:1rem 1.25rem;border-bottom:1px solid var(--border);background:#fff;}
+.mobile-nav-panel.is-open{display:flex;}
 .mobile-nav-panel a{color:var(--muted);font-weight:600;text-decoration:none;padding:8px 0;border-bottom:1px solid #f3f4f6;}
 .mobile-nav-panel a:last-child{border-bottom:none;}
 .mobile-nav-panel .mobile-actions{display:flex;gap:10px;margin-top:6px;}
@@ -769,6 +770,8 @@ section[id]{scroll-margin-top:92px;}
   .nav{padding:0 1rem;height:64px;border-radius:0 0 18px 18px;}
   .nav-links{display:none;}
   .nav-actions{gap:8px;}
+  .mobile-nav-toggle{display:flex;}
+  .mobile-nav-panel.is-open{position:fixed;top:4.75rem;left:.5rem;right:.5rem;z-index:399;max-height:calc(100vh - 5.5rem);overflow:auto;border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 45px rgba(17,24,39,.14);}
   .btn-outline,.btn-solid{padding:8px 12px;font-size:13px;}
   .hero h1{font-size:34px;}
   .hero p{font-size:15px;}
@@ -1516,12 +1519,12 @@ main#main-content,
 </div>
 <!-- ════ NAV ════ -->
 <nav class="nav glass-nav reveal" id="main-nav" aria-label="Primary navigation">
-<a class="logo" href="#">Zero<span>Wait</span></a>
+<a class="logo" href="#main-content">Zero<span>Wait</span></a>
 <div class="nav-links">
-<a onclick="navTo('how')">How it Works</a>
-<a onclick="navTo('features')">Features</a>
-<a onclick="navTo('restaurants')">Restaurants</a>
-<a onclick="navTo('partner')">Partner</a>
+<a href="#how" onclick="navTo('how'); return false;">How it Works</a>
+<a href="#features" onclick="navTo('features'); return false;">Features</a>
+<a href="#restaurants" onclick="navTo('restaurants'); return false;">Restaurants</a>
+<a href="#partner" onclick="navTo('partner'); return false;">Partner</a>
 <a href="#contact" onclick="navTo('contact'); return false;">Contact</a>
 </div>
 <div class="nav-actions" id="navActions">
@@ -1534,11 +1537,11 @@ main#main-content,
 </div>
 </nav>
 <div aria-label="Mobile navigation" class="mobile-nav-panel" id="mobileNavPanel">
-<a onclick="navTo('how');toggleMobileNav()">How it Works</a>
-<a onclick="navTo('features');toggleMobileNav()">Features</a>
-<a onclick="navTo('restaurants');toggleMobileNav()">Restaurants</a>
-<a onclick="navTo('partner');toggleMobileNav()">Partner</a>
-<a href="#contact" onclick="navTo('contact');toggleMobileNav(); return false;">Contact</a>
+<a href="#how" onclick="navTo('how'); return false;">How it Works</a>
+<a href="#features" onclick="navTo('features'); return false;">Features</a>
+<a href="#restaurants" onclick="navTo('restaurants'); return false;">Restaurants</a>
+<a href="#partner" onclick="navTo('partner'); return false;">Partner</a>
+<a href="#contact" onclick="navTo('contact'); return false;">Contact</a>
 <div class="mobile-actions">
 <button class="btn-solid" onclick="goToAccount();toggleMobileNav()">
       Get Started
@@ -1959,7 +1962,7 @@ main#main-content,
 </div>
 </div>
 <div class="partner-view reveal" id="partnerView">
-<div class="centered">
+<div class="centered" id="pricing">
 <div class="slabel">For restaurants</div>
 <div class="stitle">Simple, honest pricing</div>
 <div class="ssub">Start free. Scale as you grow. No hidden fees, no surprises — ever.</div>
@@ -2211,9 +2214,9 @@ All plans include <strong style="color:var(--dark);">Razorpay-powered secure pay
 </div>
 <div class="footer-col">
 <h4>Restaurants</h4>
-<a onclick="navTo('partner')">Partner with us</a>
+<a href="#partner" onclick="navTo('partner'); return false;">Partner with us</a>
 <a onclick="openFeatModal('kitchen')">Kitchen Dashboard</a>
-<a onclick="navTo('pricing')">Pricing</a>
+<a href="#pricing" onclick="navTo('pricing'); return false;">Pricing</a>
 <a onclick="showToast('Success stories coming soon!')">Success stories</a>
 </div>
 <div class="footer-col">
@@ -2221,7 +2224,7 @@ All plans include <strong style="color:var(--dark);">Razorpay-powered secure pay
 <a onclick="showToast('About page coming soon!')">About us</a>
 <a onclick="goToAccount()">Investors</a>
 <a onclick="showToast('Careers page coming soon!')">Careers</a>
-<a onclick="navTo('contact')">Contact</a>
+<a href="#contact" onclick="navTo('contact'); return false;">Contact</a>
 </div>
 </div>
 <div class="footer-bottom">
@@ -2252,7 +2255,7 @@ document.querySelectorAll('.feat-modal').forEach(m=>m.addEventListener('click',e
 // ── AUDIENCE TOGGLE ──
 let activeAudience = 'diners';
 
-function setAudience(audience){
+function setAudience(audience, shouldScroll = true){
   const partnerView = document.querySelector('.partner-view');
   const dinerView = document.querySelector('.diner-callout');
   const buttons = document.querySelectorAll('.mode-btn');
@@ -2267,7 +2270,7 @@ function setAudience(audience){
     button.setAttribute('aria-pressed', active ? 'true' : 'false');
   });
 
-  if (isRestaurants) {
+  if (isRestaurants && shouldScroll) {
     const partnerSection = document.getElementById('partner') || document.getElementById('pricing');
     if (partnerSection) partnerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -2304,17 +2307,20 @@ function setPartnerView(mode){
 }
 
 function navTo(id){
-  if (id === 'partner') {
-    setAudience('restaurants');
-    const partnerSection = document.getElementById('partner') || document.getElementById('pricing');
-    if (partnerSection) {
-      partnerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    return;
+  const isPartnerDestination = id === 'partner' || id === 'pricing';
+  if (isPartnerDestination) {
+    setAudience('restaurants', false);
+    const target = document.getElementById(id === 'pricing' ? 'pricing' : 'partner');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    const target = document.getElementById(id);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  const el=document.getElementById(id);
-  if(el){el.scrollIntoView({behavior:'smooth'});}
-  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const activeSection = id === 'pricing' ? 'partner' : id;
+  document.querySelectorAll('.nav-links a').forEach((link) => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${activeSection}`);
+  });
+  closeMobileNav();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -2330,9 +2336,15 @@ function toggleMobileNav(){
   const panel=document.getElementById('mobileNavPanel');
   const toggle=document.getElementById('mobileNavToggle');
   if(!panel)return;
-  const isVisible=panel.style.display === 'flex';
-  panel.style.display = isVisible ? 'none' : 'flex';
-  if(toggle) toggle.setAttribute('aria-expanded', isVisible ? 'false' : 'true');
+  const isOpen=panel.classList.toggle('is-open');
+  if(toggle) toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function closeMobileNav(){
+  const panel=document.getElementById('mobileNavPanel');
+  const toggle=document.getElementById('mobileNavToggle');
+  if(panel) panel.classList.remove('is-open');
+  if(toggle) toggle.setAttribute('aria-expanded', 'false');
 }
 
 function goToAccount() {
@@ -2423,7 +2435,7 @@ function showToast(msg){
 // Change API_BASE below to wherever your backend is hosted.
 // ══════════════════════════════════════════════════════════════
 // Change API_BASE below to wherever your backend is hosted.
-const API_BASE = "https://zerowait-2.onrender.com";
+const API_BASE = window.location.origin;
 
 // ── FORM HANDLERS ──
 function handleContact(){

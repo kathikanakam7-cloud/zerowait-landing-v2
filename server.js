@@ -277,7 +277,7 @@ app.post('/api/auth/google', async (req, res) => {
         `INSERT INTO users (name, email, phone, google_id)
          VALUES ($1, $2, $3, $4)
          RETURNING *`,
-        [name, email, "GOOGLE_USER", sub]
+        [name, email, null, sub]
       );
 
       user = result.rows[0];
